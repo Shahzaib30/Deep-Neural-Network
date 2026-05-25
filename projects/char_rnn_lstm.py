@@ -1,3 +1,15 @@
+"""Character-level LSTM (toy example)
+
+This small script implements a character-level LSTM suitable for experimenting
+with sequence modeling. It includes helper functions for fetching a tiny
+dataset, batching, a compact `LSTM` model, and a sampling helper to generate
+text from a trained model.
+
+The file is intentionally lightweight and intended for experimentation and
+education. For production use, split training, model, and sampling logic into
+separate modules and add a CLI or configuration management.
+"""
+
 import torch
 import torch.nn as nn
 import requests
@@ -11,7 +23,6 @@ def get_data():
 
 def batch_loader(data, batch_size, seq_length):
 
-    #return data
     ix = torch.randint(len(data) - seq_length, (batch_size,))
     x = torch.stack([data[i:i+seq_length] for i in ix])
     y = torch.stack([data[i+1:i+seq_length+1] for i in ix])
@@ -92,8 +103,6 @@ if __name__ == "__main__":
     
 
     print("Training complete. Now let's generate some text.")
-
-    # Generate text
 
     start_str = 'Romeo'
     char_to_ix = {ch: idx for idx, ch in enumerate(sorted(set(text)))}
